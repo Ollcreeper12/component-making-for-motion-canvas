@@ -23,6 +23,7 @@ export class Object extends Rect {
     public constructor(props: ObjectProperties) {
 
         const iconSize = props.iconSize ?? 3
+        const padding = (iconSize - 2) * 10;
 
         super({
             ...props,
@@ -31,13 +32,14 @@ export class Object extends Rect {
             layout: true,
             alignItems: 'center',
             direction: 'row',
-            padding: () => (iconSize - 2) * 10,
+            padding: () => this.height() === 0 ? 0 : padding,
             paddingLeft: () => (iconSize - 2) * 10 + 15,
             gap: (iconSize - 2) * 20,
             smoothCorners: true,
             shadowColor: '#212121',
             shadowOffsetY: 5,
             shadowBlur: 5,
+            clip: true,
         });
 
         this.iconSize = iconSize;
