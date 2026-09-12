@@ -12,11 +12,6 @@ export class ColorPicker extends Layout {
     public readonly previewHeight = createSignal(150)
     public readonly radius = createSignal(10)
 
-
-
-    // public readonly green
-    // public readonly  blue
-
     private getRGB() {
         const colorHex: string = this.color().hex("rgba")
 
