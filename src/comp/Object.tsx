@@ -1,19 +1,22 @@
 import {Icon, Rect, RectProps, Txt} from '@motion-canvas/2d';
-import {createRef, easeInOutCubic, TimingFunction} from "@motion-canvas/core";
+import {createRef, createSignal, easeInOutCubic, SignalValue, SimpleSignal, TimingFunction} from "@motion-canvas/core";
 
 export interface ObjectProperties extends RectProps {
-    text: string;
+    text: SignalValue<string>;
     icon?: string;
     color?: string;
     textColor?: string;
     iconSize?: number;
     fontSize?: number;
+    fontFamily?: string;
 }
 
 
 export class Object extends Rect {
     private textRef = createRef<Txt>()
     private iconRef = createRef<Icon>()
+
+    public readonly text: SimpleSignal<string>;
 
     private iconSize: number
 
@@ -38,6 +41,7 @@ export class Object extends Rect {
         });
 
         this.iconSize = iconSize;
+        this.text = createSignal(props.text)
 
         this.add(
             <>
@@ -50,14 +54,14 @@ export class Object extends Rect {
                     ref={this.textRef}
                     fill={props.textColor ?? "#ffffff"}
                     fontSize={props.fontSize ?? 32}
-                >
-                    {props.text}
-                </Txt>
+                    text={() => this.text()}
+                    fontFamily={props.fontFamily ?? "Arial"}
+                />
             </>
         );
     }
 
-    public text(text: string, duration?: number, timingFunc?: TimingFunction) {
+    public textLegacy(text: string, duration?: number, timingFunc?: TimingFunction) {
         return this.textRef().text(text, duration, timingFunc ?? easeInOutCubic)
     }
 
