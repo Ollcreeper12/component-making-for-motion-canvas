@@ -9,10 +9,11 @@ export default makeScene2D(function* (view) {
     view.add(
         <ColorPicker
             ref={picker}
+            color={new Color('#fc4141')}
         />
     )
 
-    picker().color(new Color('#fc4141'))
+
 
 
     yield* picker().color(new Color('#7f41fc'),1, easeInCubic)

@@ -4,7 +4,7 @@ import {Color, createRef, createSignal, SimpleSignal} from "@motion-canvas/core"
 export interface ObjectProperties extends LayoutProps {
     text: string;
     fillText?: () => string;
-    color?: SimpleSignal<Color>;
+    color?: SimpleSignal<Color, any>;
     fillWidth?: () => number;
 }
 

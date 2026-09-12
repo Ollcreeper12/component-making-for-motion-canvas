@@ -1,27 +1,21 @@
-import {Rect, Txt, Icon, RectProps, Layout, LayoutProps} from '@motion-canvas/2d';
-import {Color, createRef, createSignal} from "@motion-canvas/core";
-import {Label} from "@motion-canvas/ui";
+import {Layout, LayoutProps, Rect} from '@motion-canvas/2d';
+import {Color, createRef, createSignal, SignalValue, SimpleSignal} from "@motion-canvas/core";
 import {Controller} from './ColorPicker/Controller';
 
 export interface ObjectProperties extends LayoutProps {
+
+    color?: SignalValue<Color>;
+    previewHeight?: SignalValue<number>;
+    radius?: SignalValue<number>;
+
+
 }
 
 export class ColorPicker extends Layout {
 
-    public readonly color = createSignal(new Color('#000000'))
-    public readonly previewHeight = createSignal(150)
-    public readonly radius = createSignal(10)
-
-    private getRGB() {
-        const colorHex: string = this.color().hex("rgba")
-
-        return {
-            r: parseInt(colorHex.slice(1, 3), 16),
-            g: parseInt(colorHex.slice(3, 5), 16),
-            b: parseInt(colorHex.slice(5, 7), 16),
-            a: parseInt(colorHex.slice(7, 9), 16),
-        }
-    }
+    public readonly color: SimpleSignal<Color, this>
+    public readonly previewHeight: SimpleSignal<number, this>
+    public readonly radius: SimpleSignal<number, this>
 
     public constructor(props: ObjectProperties) {
         super({
@@ -31,7 +25,11 @@ export class ColorPicker extends Layout {
             direction: 'column',
         });
 
-        const rgba = createRef<Controller>();
+
+        this.color = createSignal(props.color ?? new Color('#000000'));
+        this.previewHeight = createSignal(props.previewHeight ?? 150);
+        this.radius = createSignal(props.radius ?? 10);
+
 
         // The Preview
         this.add(
@@ -54,9 +52,7 @@ export class ColorPicker extends Layout {
                 </Rect>
 
 
-
-
-        // The RGBA
+                // The RGBA
 
 
                 <Rect
@@ -106,5 +102,16 @@ export class ColorPicker extends Layout {
         );
 
 
+    }
+
+    private getRGB() {
+        const colorHex: string = this.color().hex("rgba")
+
+        return {
+            r: parseInt(colorHex.slice(1, 3), 16),
+            g: parseInt(colorHex.slice(3, 5), 16),
+            b: parseInt(colorHex.slice(5, 7), 16),
+            a: parseInt(colorHex.slice(7, 9), 16),
+        }
     }
 }
