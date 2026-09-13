@@ -4,9 +4,7 @@ import {Object} from "../comp/Object";
 
 export default makeScene2D(function* (view) {
 
-    // const picker = createRef<ColorPicker>()
     const obj = createRef<Object>();
-    const obj1 = createRef<Object>();
 
     view.add(
         <>
@@ -14,21 +12,16 @@ export default makeScene2D(function* (view) {
                 ref={obj}
                 text={"Misty"}
                 y={-50}
-                icon={"mdi:cat"}
                 fontFamily={"JetBrains Mono"}
-            />
-            <Object
-                ref={obj1}
-                text={"Bincy"}
-                icon={"mdi:cat"}
-                fontFamily={"JetBrains Mono"}
-                y={50}
             />
         </>
     )
 
-    yield obj().text("Bincy", 5)
-    yield* obj1().textLegacy("Misty", 5)
+    yield* obj().animateFromFlat(1)
+    yield* obj().textLegacyAnimate("dfkgfjbdfjghbdfjghbdfgjhbdfgjdfhgbdf", 1)
+
+    yield* obj().animateToFlat(1)
+
 
     yield* waitUntil("end")
 
